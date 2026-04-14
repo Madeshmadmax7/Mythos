@@ -354,6 +354,7 @@ export default function ChatArea({
     user,
     selectedStory, // Added missing prop
     onRefresh,
+<<<<<<< HEAD
     storyTools,
     onUpdateStoryTools,
     onExportStory,
@@ -362,6 +363,10 @@ export default function ChatArea({
     const scrollRef = useRef(null);
     const [activeView, setActiveView] = useState("chat");
     const [showTools, setShowTools] = useState(false);
+=======
+}) {
+    const scrollRef = useRef(null);
+>>>>>>> a158aed9fe7d4459562d434d541cbc450db69bf1
 
     const genres = [
         { id: "fantasy", name: "Fantasy" },
@@ -390,6 +395,7 @@ export default function ChatArea({
         <div className="flex flex-col flex-1 bg-black h-full">
             {/* Top Bar */}
             <div className="flex items-center justify-between px-6 py-4 border-b border-[#222] bg-black">
+<<<<<<< HEAD
                 <div className="flex items-center gap-3">
                     <div className="font-semibold text-white">
                         {selectedStory?.story_name || "New Story"}
@@ -408,6 +414,10 @@ export default function ChatArea({
                             Timeline
                         </button>
                     </div>
+=======
+                <div className="font-semibold text-white">
+                    {selectedStory?.story_name || "New Story"}
+>>>>>>> a158aed9fe7d4459562d434d541cbc450db69bf1
                 </div>
                 <div className="flex items-center gap-2">
                     {/* Share and Refresh visible for all with access */}
@@ -432,6 +442,7 @@ export default function ChatArea({
                             >
                                 <Share2 size={20} />
                             </button>
+<<<<<<< HEAD
                             <button
                                 onClick={() => onExportStory("txt")}
                                 className="px-3 py-2 text-xs text-gray-300 border border-[#333] rounded-lg hover:bg-[#1a1a1a]"
@@ -446,6 +457,8 @@ export default function ChatArea({
                             >
                                 MD
                             </button>
+=======
+>>>>>>> a158aed9fe7d4459562d434d541cbc450db69bf1
                         </>
                     )}
 
@@ -486,6 +499,7 @@ export default function ChatArea({
                     </div>
                 )}
 
+<<<<<<< HEAD
                 {activeView === "timeline" && hasMessages && (
                     <div className="max-w-3xl mx-auto px-6 py-6">
                         <h3 className="text-white text-lg mb-4">Story Timeline</h3>
@@ -502,6 +516,9 @@ export default function ChatArea({
                 )}
 
                 {!hasMessages && !loading && activeView === "chat" && (
+=======
+                {!hasMessages && !loading && (
+>>>>>>> a158aed9fe7d4459562d434d541cbc450db69bf1
                     <div className="flex items-center justify-center h-full text-center">
                         <div>
                             <div className="w-16 h-16 mx-auto rounded-full bg-[#1a1a1a] flex items-center justify-center">
@@ -538,7 +555,11 @@ export default function ChatArea({
                     </div>
                 )}
 
+<<<<<<< HEAD
                 {hasMessages && activeView === "chat" && (
+=======
+                {hasMessages && (
+>>>>>>> a158aed9fe7d4459562d434d541cbc450db69bf1
                     <div className="pb-32">
                         {messages.map((msg) => (
                             <MessageBlock
@@ -573,6 +594,7 @@ export default function ChatArea({
 
             <div className="border-t border-[#222] bg-black p-5">
                 <div className="max-w-3xl mx-auto">
+<<<<<<< HEAD
                     <div className="flex items-center gap-2 mb-3">
                         <button
                             onClick={() => setShowTools((s) => !s)}
@@ -661,6 +683,8 @@ export default function ChatArea({
                         </div>
                     )}
 
+=======
+>>>>>>> a158aed9fe7d4459562d434d541cbc450db69bf1
                     <div className="flex items-center gap-3">
                         <input
                             type="text"
@@ -697,11 +721,16 @@ export default function ChatArea({
                             )}
                         </button>
                     </div>
+<<<<<<< HEAD
                     <div className="mt-2 text-xs text-gray-500 pl-2 flex flex-wrap gap-4">
                         Genre: <span className="text-gray-400 capitalize">{genre || "None"}</span>
                         <span>
                             Strictness: <span className="text-gray-400 capitalize">{(storyTools?.strictness || "strict_canon").replace("_", " ")}</span>
                         </span>
+=======
+                    <div className="mt-2 text-xs text-gray-500 pl-2">
+                        Genre: <span className="text-gray-400 capitalize">{genre || "None"}</span>
+>>>>>>> a158aed9fe7d4459562d434d541cbc450db69bf1
                     </div>
                 </div>
             </div>

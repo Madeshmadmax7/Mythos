@@ -15,6 +15,7 @@ import ScrollToTop from "./components/ScrollToTop";
 import { CheckCircle, XCircle, Info, X } from "lucide-react";
 
 const API_BASE = "http://localhost:8000/api";
+<<<<<<< HEAD
 const STORY_TOOLS_STORAGE_KEY = "story_tools_by_id_v1";
 
 const DEFAULT_STORY_TOOLS = {
@@ -25,6 +26,8 @@ const DEFAULT_STORY_TOOLS = {
   pinnedFacts: "",
   characterBible: "",
 };
+=======
+>>>>>>> a158aed9fe7d4459562d434d541cbc450db69bf1
 
 function App() {
   // Authentication state
@@ -61,6 +64,7 @@ function App() {
 
   // Toast notifications
   const [toasts, setToasts] = useState([]);
+<<<<<<< HEAD
   const [storyToolsById, setStoryToolsById] = useState(() => {
     try {
       const raw = localStorage.getItem(STORY_TOOLS_STORAGE_KEY);
@@ -69,6 +73,8 @@ function App() {
       return {};
     }
   });
+=======
+>>>>>>> a158aed9fe7d4459562d434d541cbc450db69bf1
 
   const showToast = (message, type = 'success') => {
     const id = Date.now();
@@ -134,10 +140,13 @@ function App() {
     setSelectedStoryId(null);
   };
 
+<<<<<<< HEAD
   useEffect(() => {
     localStorage.setItem(STORY_TOOLS_STORAGE_KEY, JSON.stringify(storyToolsById));
   }, [storyToolsById]);
 
+=======
+>>>>>>> a158aed9fe7d4459562d434d541cbc450db69bf1
   // Load stories on start (only when authenticated)
   useEffect(() => {
     if (user && token) {
@@ -264,6 +273,7 @@ function App() {
     setError("");
   };
 
+<<<<<<< HEAD
   const getActiveStoryTools = () => {
     if (!selectedStoryId) {
       return {
@@ -391,6 +401,8 @@ function App() {
     showToast(recapLines.join(" "), "info");
   };
 
+=======
+>>>>>>> a158aed9fe7d4459562d434d541cbc450db69bf1
   const handleDeleteStory = async (storyId) => {
     try {
       const res = await fetch(`${API_BASE}/stories/${storyId}`, {
@@ -479,7 +491,11 @@ function App() {
         },
         body: JSON.stringify({
           story_id: storyId,
+<<<<<<< HEAD
           prompt: buildPromptWithConstraints(inputText),
+=======
+          prompt: inputText,
+>>>>>>> a158aed9fe7d4459562d434d541cbc450db69bf1
           genre: genre,
         }),
       });
@@ -502,7 +518,10 @@ function App() {
         user_prompt: inputText,
         ai_response: result.ai_response,
         hint_context: result.hint,
+<<<<<<< HEAD
         stability_score: result.stability_score,
+=======
+>>>>>>> a158aed9fe7d4459562d434d541cbc450db69bf1
         order_index: messages.length,
       };
 
@@ -532,7 +551,11 @@ function App() {
         },
         body: JSON.stringify({
           story_id: selectedStoryId,
+<<<<<<< HEAD
           prompt: buildPromptWithConstraints(inputText),
+=======
+          prompt: inputText,
+>>>>>>> a158aed9fe7d4459562d434d541cbc450db69bf1
         }),
       });
 
@@ -553,7 +576,10 @@ function App() {
         user_prompt: inputText,
         ai_response: result.ai_response,
         hint_context: result.hint,
+<<<<<<< HEAD
         stability_score: result.stability_score,
+=======
+>>>>>>> a158aed9fe7d4459562d434d541cbc450db69bf1
         order_index: messages.length,
       };
 
@@ -813,10 +839,13 @@ function App() {
         onDeleteReview={handleDeleteReview}
         user={user}
         onRefresh={() => fetchMessages(selectedStoryId)}
+<<<<<<< HEAD
         storyTools={getActiveStoryTools()}
         onUpdateStoryTools={updateActiveStoryTools}
         onExportStory={handleExportStory}
         onGenerateRecap={handleGenerateRecap}
+=======
+>>>>>>> a158aed9fe7d4459562d434d541cbc450db69bf1
       />
       <AccessRequestModal
         isOpen={showAccessModal}

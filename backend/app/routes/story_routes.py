@@ -16,6 +16,7 @@ router = APIRouter(prefix="/api", tags=["Story Chat"])
 logger = logging.getLogger(__name__)
 
 
+<<<<<<< HEAD
 def _raise_llm_http_error(exc: Exception):
     """Map provider errors to user-facing HTTP errors with actionable detail."""
     message = str(exc)
@@ -42,6 +43,8 @@ def _raise_llm_http_error(exc: Exception):
     raise HTTPException(status_code=500, detail=f"Story generation failed: {message}")
 
 
+=======
+>>>>>>> 06c1e598b6d2e1ebaeb2085388124ae89f2cadae
 # ==================== Request/Response Models ====================
 
 class CreateStoryRequest(BaseModel):
@@ -474,14 +477,23 @@ def edit_message(
 
 def trigger_periodic_summary(db: Session, story_id: int):
     """
+<<<<<<< HEAD
     Check if a new summary should be generated (initial + every 3 messages).
+=======
+    Check if a new summary should be generated (e.g., every 5 messages).
+>>>>>>> 06c1e598b6d2e1ebaeb2085388124ae89f2cadae
     """
     try:
         messages = crud.get_messages(db, story_id)
         msg_count = len(messages)
         
+<<<<<<< HEAD
         # Generate at first message, then every 3 messages to keep canon fresh.
         if msg_count == 1 or (msg_count > 1 and msg_count % 3 == 0):
+=======
+        # Every 5 messages, update the summary
+        if msg_count > 0 and msg_count % 5 == 0:
+>>>>>>> 06c1e598b6d2e1ebaeb2085388124ae89f2cadae
             logger.info(f"Triggering periodic summarization for story {story_id} (count: {msg_count})")
             current_summary = crud.get_story_summary(db, story_id)
             
@@ -625,7 +637,11 @@ def generate_story_message(
         
     except Exception as e:
         logger.error(f"Error generating story: {e}")
+<<<<<<< HEAD
         _raise_llm_http_error(e)
+=======
+        raise HTTPException(status_code=500, detail=str(e))
+>>>>>>> 06c1e598b6d2e1ebaeb2085388124ae89f2cadae
 
 
 @router.post("/refine", response_model=RefineResponse)
@@ -719,7 +735,11 @@ def refine_message(
         
     except Exception as e:
         logger.error(f"Error refining message: {e}")
+<<<<<<< HEAD
         _raise_llm_http_error(e)
+=======
+        raise HTTPException(status_code=500, detail=str(e))
+>>>>>>> 06c1e598b6d2e1ebaeb2085388124ae89f2cadae
 
 
 @router.post("/continue", response_model=ContinueResponse)
@@ -834,7 +854,11 @@ def continue_story(
         
     except Exception as e:
         logger.error(f"Error continuing story: {e}")
+<<<<<<< HEAD
         _raise_llm_http_error(e)
+=======
+        raise HTTPException(status_code=500, detail=str(e))
+>>>>>>> 06c1e598b6d2e1ebaeb2085388124ae89f2cadae
 
 
 # ==================== Hints Endpoint ====================

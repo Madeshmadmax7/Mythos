@@ -14,6 +14,7 @@ export default function Sidebar({
     const [editingId, setEditingId] = useState(null);
     const [editName, setEditName] = useState("");
     const [menuOpenId, setMenuOpenId] = useState(null);
+<<<<<<< HEAD
     const [searchText, setSearchText] = useState("");
     const inputRef = useRef(null);
     const menuRef = useRef(null);
@@ -26,6 +27,11 @@ export default function Sidebar({
         return name.includes(q) || genre.includes(q);
     });
 
+=======
+    const inputRef = useRef(null);
+    const menuRef = useRef(null);
+
+>>>>>>> a158aed9fe7d4459562d434d541cbc450db69bf1
     useEffect(() => {
         if (editingId && inputRef.current) {
             inputRef.current.focus();
@@ -98,6 +104,7 @@ export default function Sidebar({
                     <Plus size={16} />
                     New Story
                 </button>
+<<<<<<< HEAD
                 <input
                     type="text"
                     value={searchText}
@@ -105,6 +112,8 @@ export default function Sidebar({
                     placeholder="Search stories"
                     className="mt-2 w-full px-3 py-2 bg-[#111] border border-[#333] rounded-[8px] text-[13px] text-gray-200 outline-none"
                 />
+=======
+>>>>>>> a158aed9fe7d4459562d434d541cbc450db69bf1
             </div>
 
             <div className="flex-1 overflow-y-auto px-[12px]">
@@ -113,7 +122,11 @@ export default function Sidebar({
                     Your Stories
                 </p>
 
+<<<<<<< HEAD
                 {filteredStories.length === 0 && (
+=======
+                {stories.length === 0 && (
+>>>>>>> a158aed9fe7d4459562d434d541cbc450db69bf1
                     <div className="text-center py-[32px] text-[#666] text-[13px]">
                         <MessageSquare
                             size={24}
@@ -124,9 +137,15 @@ export default function Sidebar({
                     </div>
                 )}
 
+<<<<<<< HEAD
                 {filteredStories.length > 0 && (
                     <div className="flex flex-col gap-[4px]">
                         {filteredStories.map((story) => (
+=======
+                {stories.length > 0 && (
+                    <div className="flex flex-col gap-[4px]">
+                        {stories.map((story) => (
+>>>>>>> a158aed9fe7d4459562d434d541cbc450db69bf1
                             <div
                                 key={story.id}
                                 onClick={() =>

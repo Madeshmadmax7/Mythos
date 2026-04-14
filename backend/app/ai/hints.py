@@ -1,7 +1,26 @@
+<<<<<<< HEAD
 import logging
 from typing import List
 from dotenv import load_dotenv
 from app.utils.llm_client import generate_story, client
+=======
+import os
+import logging
+from typing import List
+from groq import Groq
+from dotenv import load_dotenv
+
+load_dotenv(override=True)
+
+logger = logging.getLogger(__name__)
+
+# Initialize Groq client directly (like the working example)
+client = Groq(api_key=os.getenv("LLM_API_KEY"))
+
+
+from app.utils.llm_client import generate_story, client
+from dotenv import load_dotenv
+>>>>>>> 06c1e598b6d2e1ebaeb2085388124ae89f2cadae
 
 load_dotenv(override=True)
 
@@ -91,7 +110,11 @@ def generate_story_with_context(
             retrieved_hints=retrieved_hints,
             previous_nsi=previous_nsi,
             world_rules=world_rules,
+<<<<<<< HEAD
             temperature=0.45,
+=======
+            temperature=0.8,
+>>>>>>> 06c1e598b6d2e1ebaeb2085388124ae89f2cadae
             max_tokens=1200
         )
         new_hint = extract_short_hint(story_text)
@@ -125,7 +148,11 @@ def refine_single_segment(
             retrieved_hints=retrieved_hints,
             previous_nsi=previous_nsi,
             world_rules=world_rules,
+<<<<<<< HEAD
             temperature=0.35,
+=======
+            temperature=0.6,
+>>>>>>> 06c1e598b6d2e1ebaeb2085388124ae89f2cadae
             max_tokens=1200
         )
         new_hint = extract_short_hint(refined_text)
@@ -159,7 +186,11 @@ def generate_continuation(
             retrieved_hints=retrieved_hints,
             previous_nsi=previous_nsi,
             world_rules=world_rules,
+<<<<<<< HEAD
             temperature=0.45,
+=======
+            temperature=0.85,
+>>>>>>> 06c1e598b6d2e1ebaeb2085388124ae89f2cadae
             max_tokens=1400
         )
         new_hint = extract_short_hint(story_text)
