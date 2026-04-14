@@ -1,0 +1,55 @@
+@import "tailwindcss";
+
+/* Google Fonts */
+.font-outfit {
+  font-family: "Outfit", sans-serif;
+}
+
+.font-balsamiq {
+  font-family: "Balsamiq Sans", cursive;
+}
+
+.font-luckiest {
+  font-family: "Luckiest Guy", cursive;
+}
+
+::-webkit-scrollbar {
+  @apply w-2;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-black;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-[#333] rounded;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-[#444];
+}
+
+html,
+body {
+  @apply bg-black text-white h-full w-full;
+  font-family: "Outfit", sans-serif;
+}
+
+/* Light sweep animation for footer gradient bar */
+@keyframes light-sweep {
+  0% {
+    left: -384px;
+  }
+
+  80% {
+    left: 100%;
+  }
+
+  100% {
+    left: 100%;
+  }
+}
+
+.animate-light-sweep {
+  animation: light-sweep 10s linear infinite;
+}
