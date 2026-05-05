@@ -1,175 +1,185 @@
-# AI Story Generator (FastAPI + React + Groq LLM)
+# Mythos
 
-A GPT-like AI storytelling application with chat-based interface.  
-Each story is like a chat session where you can continue the narrative and refine individual segments.
+Mythos is an AI-powered collaborative storytelling platform where users can create, continue, refine, and co-manage stories in a chat-style experience.
 
----
+It combines a FastAPI backend, React frontend, and MySQL persistence with LLM-assisted generation to keep narratives coherent and evolving.
 
-## Features
+## Highlights
 
-1. **Chat-like Interface** - Stories appear as conversations with the AI
-2. **Multiple Stories** - Each story is a separate chat (like GPT conversations)
-3. **Continuation without Repetition** - Each new segment uses previous hints to avoid repeating content
-4. **Segment-level Refinement** - Refine only specific parts without affecting others
-5. **Context Hints** - 5-10 word hints are extracted from each segment for RAG-like continuity
-6. **Persistent Storage** - All stories, messages, and hints stored in MySQL
+- AI story generation with context continuity
+- Story continuation and per-message refinement
+- JWT-based authentication and user accounts
+- Story sharing, access requests, and collaboration workflows
+- Message reactions, reviews, and management controls
+- Persistent storage for stories, messages, hints, and collaboration metadata
 
----
+## Website Preview
 
-## How It Works
+<p align="center">
+    <img src="story-teller-ui/public/logo/mythos-1.png" alt="Mythos Logo 1" width="260" />
+    <img src="story-teller-ui/public/logo/mythos-2.png" alt="Mythos Logo 2" width="260" />
+    <img src="story-teller-ui/public/logo/croc.png" alt="Mythos Mascot" width="260" />
+</p>
 
-1. **New Story**: User enters a prompt, a new story/chat is created
-2. **Generation**: AI generates story content + extracts a 5-10 word context hint
-3. **Continuation**: User can continue the story; previous hints prevent repetition
-4. **Refinement**: Each message can be refined individually without affecting others
-5. **RAG-like Context**: Accumulated hints serve as few-shot context for continuity
+## Screenshot Slots (Drop Your Website Images Here)
 
----
+Replace the `src` values below with your screenshot paths. Keep image widths as-is for clean alignment.
+
+<table>
+    <tr>
+        <td align="center" width="50%"><strong>Home / Landing</strong></td>
+        <td align="center" width="50%"><strong>Story Workspace</strong></td>
+    </tr>
+    <tr>
+        <td align="center">
+            <img src="docs/screenshots/home.png" alt="Home Screenshot" width="100%" />
+        </td>
+        <td align="center">
+            <img src="docs/screenshots/workspace.png" alt="Workspace Screenshot" width="100%" />
+        </td>
+    </tr>
+    <tr>
+        <td align="center" width="50%"><strong>Sidebar / Story List</strong></td>
+        <td align="center" width="50%"><strong>Sharing & Collaboration</strong></td>
+    </tr>
+    <tr>
+        <td align="center">
+            <img src="docs/screenshots/sidebar.png" alt="Sidebar Screenshot" width="100%" />
+        </td>
+        <td align="center">
+            <img src="docs/screenshots/collaboration.png" alt="Collaboration Screenshot" width="100%" />
+        </td>
+    </tr>
+</table>
+
+## Architecture
+
+- Frontend: React + Vite
+- Backend: FastAPI + SQLAlchemy
+- Auth: JWT bearer token flow
+- AI Layer: Groq-backed generation and refinement services
+- Database: MySQL
+
+## Tech Stack
+
+- Frontend: React 19, React Router, Tailwind CSS 4, Lucide Icons, React Icons
+- Backend: FastAPI, SQLAlchemy, Pydantic, Uvicorn
+- Auth/Security: python-jose, passlib, bcrypt
+- AI/Networking: groq, httpx
+- Database Driver: PyMySQL
 
 ## Project Structure
 
-```
-backend/
-    app/
-        main.py              # FastAPI app
-        ai/
-            hints.py         # Story generation, hints, refinement
-        db/
-            connection.py    # MySQL connection
-            models.py        # SQLAlchemy models
-            crud.py          # Database operations
-            init_db.py       # Table creation
-        routes/
-            story_routes.py  # API endpoints
-    requirements.txt
-    .env
-
-story-teller-ui/
-    src/
-        App.jsx              # Main app state
-        components/
-            Sidebar.jsx      # Story list (like GPT sidebar)
-            ChatArea.jsx     # Chat messages and input
+```text
+.
+|-- backend/
+|   |-- app/
+|   |   |-- ai/
+|   |   |-- db/
+|   |   |-- models/
+|   |   |-- routes/
+|   |   `-- utils/
+|   |-- requirements.txt
+|   `-- .env
+|-- story-teller-ui/
+|   |-- src/
+|   |   |-- components/
+|   |   `-- pages/
+|   `-- package.json
+`-- readme.md
 ```
 
----
+## API Overview
 
-## Database Tables
+Base URL: `http://localhost:8000`
 
-### stories
-- id
-- story_name (chat title)
-- description
-- genre
-- created_at
-- updated_at
+### Authentication
 
-### story_messages  
-- id
-- story_id
-- order_index (position in chat)
-- user_prompt
-- ai_response
-- hint_context (5-10 word context hint)
-- created_at
-- updated_at
+- `POST /api/auth/register` - Register a new user
+- `POST /api/auth/login` - Login and receive JWT token
+- `GET /api/auth/me` - Get current authenticated user
 
-### story_hints
-- id
-- story_id
-- hint_text (5-10 words max)
-- message_id
-- created_at
+### Stories
 
----
+- `POST /api/stories` - Create story
+- `GET /api/stories` - List user stories
+- `GET /api/stories/{story_id}` - Get story by ID
+- `GET /api/stories/hash/{hash_id}` - Get story by hash ID
+- `DELETE /api/stories/{story_id}` - Delete a story
 
-## API Endpoints
-
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| GET | /api/stories | Get all stories |
-| POST | /api/stories | Create new story |
-| GET | /api/stories/{id} | Get single story |
-| DELETE | /api/stories/{id} | Delete story |
-| GET | /api/stories/{id}/messages | Get all messages |
-| POST | /api/generate | Generate new message |
-| POST | /api/continue | Continue story |
-| POST | /api/refine | Refine specific message |
-
----
-
-## Prompting Strategy
-
-- **Initial Generation**: One-shot with genre and user prompt
-- **Hint Extraction**: 5-10 word context hints after each generation
-- **Continuation**: Uses ALL previous hints to avoid repetition
-- **Refinement**: Only refines targeted segment using prior hints for consistency
-
----
-
-## Setup
+## Getting Started
 
 ### Prerequisites
+
 - Python 3.9+
 - Node.js 18+
-- MySQL 8.0+
+- MySQL 8+
 
-### Backend Setup
+### 1) Backend Setup
+
 ```bash
 cd backend
+python -m venv .venv
+.venv\Scripts\activate
 pip install -r requirements.txt
+```
 
-# Create .env file with:
-# DB_HOST=localhost
-# DB_PORT=3306
-# DB_USER=root
-# DB_PASS=your_password
-# DB_NAME=story_db
-# LLM_API_KEY=your_groq_api_key
+Create `backend/.env`:
 
-# Run backend
+```env
+DB_HOST=localhost
+DB_PORT=3306
+DB_USER=root
+DB_PASS=your_password
+DB_NAME=story_db
+LLM_API_KEY=your_groq_api_key
+```
+
+Run backend:
+
+```bash
 uvicorn app.main:app --reload
 ```
 
-### Frontend Setup
+### 2) Frontend Setup
+
 ```bash
 cd story-teller-ui
 npm install
 npm run dev
 ```
 
-### Database Migration
-If upgrading from old schema, drop existing tables:
-```sql
-DROP TABLE IF EXISTS story_hints;
-DROP TABLE IF EXISTS story_levels;
-DROP TABLE IF EXISTS story_versions;
-DROP TABLE IF EXISTS stories;
-```
+### 3) Open the App
 
-The app will recreate tables on startup.
+- Frontend: `http://localhost:5173`
+- Backend docs: `http://localhost:8000/docs`
 
----
+## Collaboration Flow
 
-## Usage
+1. User creates a story.
+2. Story can be shared with view/collaborate access.
+3. Collaborators submit change requests.
+4. Story owner reviews and approves/rejects changes.
+5. Approved updates are reflected in the story thread.
 
-1. Open the app at http://localhost:5173
-2. Click "New Story" to start a new chat
-3. Select a genre and enter your story prompt
-4. Click Generate to create the first part
-5. Continue the story by entering more prompts
-6. Hover over any AI response and click "Refine" to improve just that part
-7. Previous stories appear in the left sidebar
+## Environment Variables
 
----
+Backend variables expected in `backend/.env`:
 
-## Tech Stack
+- `DB_HOST`
+- `DB_PORT`
+- `DB_USER`
+- `DB_PASS`
+- `DB_NAME`
+- `LLM_API_KEY`
 
-- **Backend**: FastAPI, SQLAlchemy, Groq LLM (LLaMA 3.1 8B)
-- **Frontend**: React, Lucide Icons, React Icons
-- **Database**: MySQL
-- **Styling**: Inline CSS with dark theme
+## Roadmap Ideas
 
+- Story version history and branching
+- Export to PDF/Markdown
+- Team workspaces and shared libraries
+- Prompt templates by genre
 
+## License
 
-## uvicorn app.main:app --reload
+This project is currently private/internal. Add a license section if you plan to open source Mythos.
