@@ -13,17 +13,16 @@ It combines a FastAPI backend, React frontend, and MySQL persistence with LLM-as
 - Message reactions, reviews, and management controls
 - Persistent storage for stories, messages, hints, and collaboration metadata
 
-## Website Preview
+## Screenshot Slots (Add New Images Here)
 
-<p align="center">
-    <img src="story-teller-ui/public/logo/mythos-1.png" alt="Mythos Logo 1" width="260" />
-    <img src="story-teller-ui/public/logo/mythos-2.png" alt="Mythos Logo 2" width="260" />
-    <img src="story-teller-ui/public/logo/croc.png" alt="Mythos Mascot" width="260" />
-</p>
+Only add your new website screenshots in these paths:
 
-## Screenshot Slots (Drop Your Website Images Here)
+- docs/screenshots/home.png
+- docs/screenshots/workspace.png
+- docs/screenshots/sidebar.png
+- docs/screenshots/collaboration.png
 
-Replace the `src` values below with your screenshot paths. Keep image widths as-is for clean alignment.
+After you add images, they will auto-render in this layout.
 
 <table>
     <tr>
@@ -54,11 +53,58 @@ Replace the `src` values below with your screenshot paths. Keep image widths as-
 
 ## Architecture
 
-- Frontend: React + Vite
-- Backend: FastAPI + SQLAlchemy
-- Auth: JWT bearer token flow
-- AI Layer: Groq-backed generation and refinement services
-- Database: MySQL
+### High-Level System
+
+```text
+Browser (React + Vite)
+        |
+        | HTTP + JWT
+        v
+FastAPI API Layer (app/main.py + routes)
+        |
+        | service calls (generation/refine/continue)
+        v
+AI Layer (app/ai + app/utils/llm_client.py)
+        |
+        | persistence via SQLAlchemy
+        v
+MySQL (stories, messages, hints, access requests, change requests, reviews, reactions)
+```
+
+### Backend Architecture
+
+- Entrypoint: backend/app/main.py
+- Routing:
+    - backend/app/routes/auth_routes.py
+    - backend/app/routes/story_routes.py
+- AI Services:
+    - backend/app/ai/hints.py
+    - backend/app/ai/storyteller.py
+- Data Layer:
+    - backend/app/db/models.py
+    - backend/app/db/crud.py
+    - backend/app/db/connection.py
+    - backend/app/db/init_db.py
+- Utilities:
+    - backend/app/utils/auth.py
+    - backend/app/utils/llm_client.py
+
+### Frontend Architecture
+
+- App shell and routing:
+    - story-teller-ui/src/main.jsx
+    - story-teller-ui/src/App.jsx
+- Core features:
+    - story-teller-ui/src/components/ChatArea.jsx
+    - story-teller-ui/src/components/Sidebar.jsx
+    - story-teller-ui/src/components/ShareModal.jsx
+    - story-teller-ui/src/components/ManagementModal.jsx
+    - story-teller-ui/src/components/AccessRequestModal.jsx
+- Static pages:
+    - story-teller-ui/src/pages/HomePage.jsx
+    - story-teller-ui/src/pages/DocsPage.jsx
+    - story-teller-ui/src/pages/PrivacyPolicyPage.jsx
+    - story-teller-ui/src/pages/TermsOfServicePage.jsx
 
 ## Tech Stack
 
@@ -91,21 +137,49 @@ Replace the `src` values below with your screenshot paths. Keep image widths as-
 
 ## API Overview
 
-Base URL: `http://localhost:8000`
+Base URL: http://localhost:8000
 
 ### Authentication
 
-- `POST /api/auth/register` - Register a new user
-- `POST /api/auth/login` - Login and receive JWT token
-- `GET /api/auth/me` - Get current authenticated user
+- POST /api/auth/register - Register a new user
+- POST /api/auth/login - Login and receive JWT token
+- GET /api/auth/me - Get current authenticated user
 
 ### Stories
 
-- `POST /api/stories` - Create story
-- `GET /api/stories` - List user stories
-- `GET /api/stories/{story_id}` - Get story by ID
-- `GET /api/stories/hash/{hash_id}` - Get story by hash ID
-- `DELETE /api/stories/{story_id}` - Delete a story
+- POST /api/stories - Create story
+- GET /api/stories - List user stories
+- GET /api/stories/{story_id} - Get story by id
+- GET /api/stories/hash/{hash_id} - Get story by hash id
+- PUT /api/stories/{story_id} - Update story name
+- DELETE /api/stories/{story_id} - Delete story
+
+### Messages and AI
+
+- GET /api/stories/{story_id}/messages - List messages in a story
+- PUT /api/messages/{message_id} - Edit a message
+- POST /api/generate - Generate a new story message
+- POST /api/continue - Continue a story thread
+- POST /api/refine - Refine a specific segment
+- GET /api/stories/{story_id}/hints - Fetch hint context for story
+
+### Reactions and Reviews
+
+- POST /api/messages/{message_id}/reaction - Add/update/remove reaction
+- GET /api/messages/{message_id}/reaction - Get reaction summary
+- POST /api/messages/{message_id}/reviews - Add review comment
+- GET /api/messages/{message_id}/reviews - List reviews
+- DELETE /api/reviews/{review_id} - Delete review
+
+### Collaboration and Access Control
+
+- POST /api/stories/hash/{hash_id}/request_access - Request view/collaborate access
+- GET /api/stories/hash/{hash_id}/access_requests - List access requests
+- PUT /api/stories/hash/{hash_id}/access_requests/{request_id} - Approve/reject access request
+- DELETE /api/stories/hash/{hash_id}/access/{user_id} - Remove collaborator access
+- POST /api/stories/hash/{hash_id}/propose_change - Submit change request
+- GET /api/stories/hash/{hash_id}/change_requests - List change requests
+- PUT /api/stories/hash/{hash_id}/change_requests/{request_id} - Approve/reject change request
 
 ## Getting Started
 
@@ -124,7 +198,7 @@ python -m venv .venv
 pip install -r requirements.txt
 ```
 
-Create `backend/.env`:
+Create backend/.env:
 
 ```env
 DB_HOST=localhost
@@ -151,8 +225,8 @@ npm run dev
 
 ### 3) Open the App
 
-- Frontend: `http://localhost:5173`
-- Backend docs: `http://localhost:8000/docs`
+- Frontend: http://localhost:5173
+- Backend docs: http://localhost:8000/docs
 
 ## Collaboration Flow
 
@@ -164,7 +238,7 @@ npm run dev
 
 ## Environment Variables
 
-Backend variables expected in `backend/.env`:
+Backend variables expected in backend/.env:
 
 - `DB_HOST`
 - `DB_PORT`
